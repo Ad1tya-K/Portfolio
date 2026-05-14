@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        body {
+            background-color: #000000; /* Pure black background */
+            color: #00ff00; /* Bright green text */
+            font-family: 'Courier New', monospace; /* Terminal font */
+            margin: 0px;
+            padding: 20px;
+            overflow-x: hidden; /* No horizontal scroll */
+        }
+        header {
+            text-align: center;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 20px;
+        }
+        h1 {
+            font-size: 48px; /* Exact pixel size for header */
+            margin: 0px;
+        }
+        .typing-effect {
+            /* Typing animation */
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #00ff00;
+            animation: blink-caret 1s step-end infinite;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #00ff00; }
+        }
+        .matrix-rain {
+            /* Matrix rain background */
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .matrix-rain span {
+            position: absolute;
+            top: -100px;
+            animation: fall 5s linear infinite;
+            font-size: 20px;
+            color: #00ff00;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+        section {
+            margin: 40px 0px;
+            padding: 20px;
+            border: 1px solid #00ff00;
+            background: rgba(0, 0, 0, 0.8);
+        }
+        h2 {
+            color: #00ff00;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+            font-size: 32px; /* Exact pixel size for section headers */
+            margin: 0px 0px 20px 0px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0px;
+        }
+        ul li {
+            margin: 10px 0px;
+            position: relative;
+            padding-left: 20px;
+        }
+        ul li::before {
+            content: '> '; /* Terminal prompt */
+            color: #00ff00;
+            position: absolute;
+            left: 0px;
+        }
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .skill {
+            background: #001100;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            font-size: 16px; /* Exact pixel size for skill text */
+        }
+        .contact {
+            text-align: center;
+            margin-top: 50px;
+        }
+        /* Certifications Section Styles */
+        .certifications-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .certificates-carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 0px;
+            flex: 1;
+            scrollbar-width: thin;
+            scrollbar-color: #00ff00 #001100;
+        }
+        .certificates-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+        .certificates-carousel::-webkit-scrollbar-track {
+            background: #001100;
+        }
+        .certificates-carousel::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 4px;
+        }
+        .certificates-carousel::-webkit-scrollbar-thumb:hover {
+            background: #00cc00;
+        }
+        .certificate-card {
+            flex-shrink: 0;
+            width: 280px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .certificate-link {
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .certificate-link:hover {
+            transform: translateY(-5px);
+        }
+        .certificate-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0px 0px 10px rgba(0, 255, 0, 0.2);
+        }
+        .certificate-image:active {
+            transform: scale(0.98);
+            box-shadow: 0px 0px 5px rgba(0, 255, 0, 0.4);
+        }
+        .certificate-card:hover .certificate-image {
+            transform: scale(1.12);
+            box-shadow: 0px 0px 25px rgba(0, 255, 0, 0.6), inset 0px 0px 15px rgba(0, 255, 0, 0.2);
+        }
+        .cert-title {
+            color: #00ff00;
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .certificate-card:hover .cert-title {
+            color: #00cc00;
+            text-shadow: 0px 0px 10px rgba(0, 255, 0, 0.6);
+        }
+        .scroll-btn {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        .scroll-btn:hover {
+            background: rgba(0, 255, 0, 0.3);
+            box-shadow: 0px 0px 15px rgba(0, 255, 0, 0.5);
+            transform: scale(1.1);
+        }
+        .scroll-btn:active {
+            transform: scale(0.95);
+        }
+        .scroll-left {
+            order: -1;
+        }
+
+        /* Responsive for mobile */
+        @media (max-width: 768px) {
+            h1 { font-size: 36px; } /* Smaller on mobile */
+            .skills { flex-direction: column; }
+            section { padding: 15px; margin: 20px 0px; }
+            .certificate-image {
+                width: 100%;
+                height: 250px;
+            }
+            .certificate-card {
+                width: 220px;
+            }
+            .certifications-container {
+                gap: 10px;
+            }
+            .scroll-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+    </style>
+    <script>
+        // JavaScript for matrix rain and typing effect
+        document.addEventListener('DOMContentLoaded', function() {
+            // Matrix rain effect
+            const matrixRain = document.querySelector('.matrix-rain');
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+
+            function createRain() {
+                const span = document.createElement('span');
+                span.textContent = chars[Math.floor(Math.random() * chars.length)];
+                span.style.left = Math.random() * 100 + '%';
+                span.style.animationDelay = Math.random() * 5 + 's';
+                matrixRain.appendChild(span);
+
+                setTimeout(() => {
+                    matrixRain.removeChild(span);
+                }, 5000);
+            }
+
+            setInterval(createRain, 100); // 100ms interval for smooth rain
+
+            // Typing effect for header
+            const headerText = "Welcome to My Portfolio";
+            const headerElement = document.querySelector('#typing-header');
+            let i = 0;
+
+            function typeWriter() {
+                if (i < headerText.length) {
+                    headerElement.textContent += headerText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100); // 100ms delay per character
+                }
+            }
+
+            typeWriter();
+        });
+
+        // Certifications carousel scroll functionality
+        const scrollLeftBtn = document.getElementById('scrollLeft');
+        const scrollRightBtn = document.getElementById('scrollRight');
+        const carousel = document.querySelector('.certificates-carousel');
+
+        if (scrollLeftBtn && scrollRightBtn && carousel) {
+            scrollLeftBtn.addEventListener('click', function() {
+                carousel.scrollBy({
+                    left: -300,
+                    behavior: 'smooth'
+                });
+            });
+
+            scrollRightBtn.addEventListener('click', function() {
+                carousel.scrollBy({
+                    left: 300,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="matrix-rain"></div> <!-- Matrix rain background -->
+    <header>
+        <h1 id="typing-header" class="typing-effect"></h1>
+        <p>Aditya Kumar | Aspiring Cloud Engineer</p>
+    </header>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <p>I’m Aditya, a B.Tech Computer Science Engineering student at Lovely Professional University specializing in Cloud Computing. I am passionate about technology, problem-solving, and building innovative digital solutions that create real-world impact. My interests lie in cloud computing, DevOps, backend development, and AI-driven applications.
+
+I enjoy learning modern technologies and continuously improving my technical skills through projects, experimentation, and hands-on development. Alongside academics, I focus on building scalable systems, exploring cloud platforms like AWS and Azure, and creating practical solutions that combine creativity with technology.
+
+I am a highly motivated and adaptable individual with strong communication, teamwork, and leadership skills. My goal is to become a Cloud Solutions Architect and contribute to building secure, efficient, and future-ready systems. I believe in continuous learning, innovation, and pushing boundaries to grow both personally and professionally.</p>
+    </section>
+
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skills">
+            <div class="skill">Python (Intermediate)</div>
+            <div class="skill">Google Cloud Platform (Basics)</div>
+            <div class="skill">C++ (Basics)</div>
+            <div class="skill">JavaScript & Node.js (Basic)</div>
+            <div class="skill">Docker & Kubernetes (Basics)</div>
+            <div class="skill">Linux Fundamentals</div>
+            <div class="skill">MySQL & MongoDB</div>
+            <div class="skill">Amazon Web Services (AWS)</div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <ul>
+            <li><strong>417 Game:</strong>A psychological horror game where waking up at 4:17 AM traps you in a looping battle against another version of yourself.**“Built as a browser-based interactive horror experience using HTML, CSS, and JavaScript with branching choices, hidden state mechanics, glitch effects, and dynamic storytelling.
+
+</li>
+            <li><strong>Nourishnet:</strong>NourishNet is an AI-powered food redistribution platform that connects restaurants, NGOs, mediators, delivery partners, and biogas producers to reduce food waste and fight hunger, built using HTML, CSS, and JavaScript with interactive dashboards, AI-based food verification, live tracking, and role-based workflows.
+</li>
+            <li><strong>My Portfolio:</strong>A futuristic terminal-style portfolio website showcasing projects, skills, and experience with Matrix-inspired animations, built using HTML, CSS, and JavaScript featuring responsive design, typing effects, and dynamic visual interactions.
+</li>
+            <li><strong>IoT Security Audit Framework:</strong> Designed a framework using Python and MQTT to simulate attacks on smart devices, uncovering firmware flaws in 50+ IoT products. Quantified risks with CVSS scores averaging 7.5, leading to patches for devices from vendors like Philips and Nest. Presented at DEF CON 2023, with slides and code shared on GitHub.</li>
+        </ul>
+    </section>
+
+    <section id="experience">
+        <h2>Experience</h2>
+        <ul>
+            <li><strong>Cloud Computing :-</strong> Worked on cloud computing concepts and explored platforms such as AWS and Microsoft Azure through academic learning and self-practice.</li>
+            <li><strong>Github :-</strong> Gained hands-on experience with GitHub, version control, and software development workflows</li>
+            <li><strong>Participated in workshops and Hackathons :-</strong> Participated in team-based academic projects, improving collaboration, communication, and project management skills.</li>
+        </ul>
+    </section>
+
+    <section id="certifications">
+        <h2>Certifications</h2>
+        <div class="certifications-container">
+            <div class="certificates-carousel">
+                <div class="certificate-card">
+                    <a href="hackethics.png" target="_blank" class="certificate-link">
+                        <img src="hackethics.png" alt="Certificate 1" class="certificate-image">
+                    </a>
+                    <p class="cert-title">Microsoft Certified: Hackethics</p>
+                </div>
+                <div class="certificate-card">
+                    <a href="cloud certificate_page-0001.jpg" target="_blank" class="certificate-link">
+                        <img src="cloud certificate_page-0001.jpg" alt="Certificate 2" class="certificate-image">
+                    </a>
+                    <p class="cert-title">Infosys Cloud Engineer</p>
+                </div>
+                <div class="certificate-card">
+                    <a href="python data science certificate.png" target="_blank" class="certificate-link">
+                        <img src="python data science certificate.png" alt="Certificate 3" class="certificate-image">
+                    </a>
+                    <p class="cert-title">Python Data Science</p>
+                </div>
+                <div class="certificate-card">
+                    <a href="soty.png" target="_blank" class="certificate-link">
+                        <img src="soty.png" alt="Certificate 4" class="certificate-image">
+                    </a>
+                    <p class="cert-title">SOTY COORDINATOR</p>
+                </div>
+                <div class="certificate-card">
+                    <a href="webathon.jpeg" target="_blank" class="certificate-link">
+                        <img src="webathon.jpeg" alt="Certificate 5" class="certificate-image">
+                    </a>
+                    <p class="cert-title">WEB-A-THON</p>
+                </div>
+            </div>
+            <button class="scroll-btn scroll-left" id="scrollLeft">←</button>
+            <button class="scroll-btn scroll-right" id="scrollRight">→</button>
+        </div>
+    </section>
+
+    <section class="contact">
+        <h2>Contact</h2>
+        <p>Email: aditya.kumar234875544@gmail.com | LinkedIn: linkedin.com/in/aditya-kum-ar | GitHub: github.com/Ad1tya-K </p>
+    </section>
+</body>
+</html>
